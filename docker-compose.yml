@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cardflip
+      POSTGRES_USER: cardflip
+      POSTGRES_PASSWORD: cardflip
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://cardflip:cardflip@db:5432/cardflip
+      NEXTAUTH_SECRET: cardflip-dev-secret
+      PLATFORM_FEE_BPS: 750
+      FEATURE_CARD_PROVIDER: "false"
+    depends_on:
+      - db
+    command: npm run dev
+volumes:
+  postgres-data:
