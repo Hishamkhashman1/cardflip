@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const resolvedSearch = await searchParams;
   const flattened = Object.fromEntries(
-    Object.entries(searchParams).map(([key, value]) => [key, Array.isArray(value) ? value.at(-1) : value])
+    Object.entries(resolvedSearch).map(([key, value]) => [key, Array.isArray(value) ? value.at(-1) : value])
   );
   const filters = listingFiltersSchema.parse({ ...flattened, cursor: undefined, limit: flattened.limit ?? "12" });
   const { listings, nextCursor } = await listPublicListings(filters);
