@@ -26,7 +26,7 @@ export function DeactivateButton({ id, type }: { id: string; type: "user" | "lis
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className="rounded border border-red-400 px-3 py-1 text-xs text-red-500"
+      className="rounded-full border border-red-400/60 px-4 py-1.5 text-xs font-semibold text-red-400 transition hover:border-red-300 disabled:opacity-60"
     >
       {loading ? "Working..." : "Deactivate"}
     </button>

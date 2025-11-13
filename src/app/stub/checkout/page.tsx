@@ -1,15 +1,25 @@
 export default function StubCheckout({ searchParams }: { searchParams: { orderId?: string } }) {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10 space-y-4">
-      <h1 className="text-3xl font-bold">Test checkout</h1>
-      <p>
-        Stripe keys are not configured, so this stub simulates a successful payment. Confirm the flow manually and then
-        mark the order as paid in your database or via tests.
-      </p>
-      <p className="rounded border border-[var(--color-border)] bg-[color:var(--background)]/70 p-4">
-        Order ID: {searchParams.orderId ?? "unknown"}
-      </p>
-      <p className="text-sm text-foreground/70">TODO: Replace with real Checkout session + webhooks.</p>
+    <div className="mx-auto max-w-3xl space-y-6 px-4">
+      <section className="panel glow-border space-y-4 p-8">
+        <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted)]">Test checkout</p>
+        <h1 className="text-3xl font-bold">Stripe stub session</h1>
+        <p className="text-sm text-[var(--muted)]">
+          Stripe keys are not configured in this environment. Use this stub flow to simulate a successful payment, then update the order status manually to continue testing.
+        </p>
+        <div className="rounded-2xl border border-dashed border-[var(--color-border)]/60 bg-[color:var(--background)]/60 p-4 font-mono text-sm">
+          Order ID: {searchParams.orderId ?? "unknown"}
+        </div>
+      </section>
+      <section className="panel space-y-3 p-6 text-sm">
+        <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted)]">Next steps</p>
+        <ol className="space-y-2 text-[var(--muted)]">
+          <li>1. Confirm the order exists in Prisma and remains in <strong>REQUIRES_PAYMENT</strong>.</li>
+          <li>2. Mark the order as <strong>PAID</strong> or <strong>SHIPPED</strong> via the Orders dashboard or API.</li>
+          <li>3. Continue the conversation inside the auto-created thread tied to this order.</li>
+        </ol>
+        <p className="text-xs text-[var(--muted)]">Replace this page with a real Checkout session + webhook handler in production.</p>
+      </section>
     </div>
   );
 }

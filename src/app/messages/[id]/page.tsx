@@ -33,15 +33,19 @@ export default async function ThreadPage({ params }: { params: { id: string } })
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <div className="mb-4 rounded border border-[var(--color-border)] p-4">
-        <p className="text-sm uppercase tracking-[0.3em] text-foreground/60">Thread</p>
+    <div className="mx-auto max-w-5xl space-y-4 px-4">
+      <div className="panel rounded-3xl border border-[var(--color-border)]/70 p-6">
+        <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted)]">Thread</p>
         <h1 className="text-2xl font-semibold">
           {thread.listing?.card.title ?? thread.order?.listing.card.title ?? "Conversation"}
         </h1>
+        <p className="text-sm text-[var(--muted)]">
+          Connected to {thread.order ? "order" : "listing"} — participants stay synced even after checkout.
+        </p>
       </div>
       <ThreadViewer
         threadId={thread.id}
+        currentUserId={session.user.id}
         initialMessages={thread.messages.map((message) => ({
           id: message.id,
           body: message.body,

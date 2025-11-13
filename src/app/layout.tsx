@@ -38,9 +38,17 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-[color:var(--background)] text-[color:var(--foreground)] antialiased`}
       >
         <Providers session={session}>
-          <div className="flex min-h-screen flex-col">
+          <div className="relative flex min-h-screen flex-col">
+            <span
+              aria-hidden
+              className="floating-orb left-[10%] top-24 h-56 w-56 bg-[var(--color-accent)]/45"
+            />
+            <span
+              aria-hidden
+              className="floating-orb right-[5%] top-1/2 h-64 w-64 bg-[var(--color-accent-strong)]/35"
+            />
             <SiteHeader session={session} />
-            <main className="flex-1 bg-[color:var(--background)]">{children}</main>
+            <main className="relative flex-1 pb-16 pt-10 sm:pt-16">{children}</main>
             <SiteFooter />
           </div>
         </Providers>

@@ -101,14 +101,15 @@ export function ListingForm({ platformFeeBps }: { platformFeeBps: number }) {
   }
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="grid gap-6 md:grid-cols-2">
+        <fieldset className="space-y-4">
+          <legend className="text-xs uppercase tracking-[0.4em] text-[var(--muted)]">Card identity</legend>
           <label className="space-y-1 text-sm">
             <span className="font-medium">Title</span>
             <input
               {...form.register("title", { required: true })}
-              className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+              className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
               placeholder="Crystal Golem #01"
             />
           </label>
@@ -116,7 +117,7 @@ export function ListingForm({ platformFeeBps }: { platformFeeBps: number }) {
             <span className="font-medium">Set name</span>
             <input
               {...form.register("setName", { required: true })}
-              className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+              className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
               placeholder="Vaporwave Creatures"
             />
           </label>
@@ -124,29 +125,36 @@ export function ListingForm({ platformFeeBps }: { platformFeeBps: number }) {
             <span className="font-medium">Card number</span>
             <input
               {...form.register("number", { required: true })}
-              className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+              className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
               placeholder="001"
             />
           </label>
+        </fieldset>
+        <fieldset className="space-y-4">
+          <legend className="text-xs uppercase tracking-[0.4em] text-[var(--muted)]">Metadata</legend>
           <div className="space-y-2 text-sm">
             <label className="font-medium">Rarity</label>
             <div className="flex gap-2">
               <input
                 {...form.register("rarity")}
-                className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+                className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
                 placeholder="Mythic"
               />
-              <button type="button" className="rounded border border-[var(--color-border)] px-3" onClick={suggestRarity}>
+              <button
+                type="button"
+                className="rounded-2xl border border-[var(--color-border)]/70 px-4 text-sm font-semibold transition hover:border-[var(--color-accent)]"
+                onClick={suggestRarity}
+              >
                 Suggest
               </button>
             </div>
-            <p className="text-xs text-foreground/60">Third-party data for dev use only.</p>
+            <p className="text-xs text-[var(--muted)]">Optional dev-only lookup via pokemontcg.io</p>
           </div>
           <label className="space-y-1 text-sm">
             <span className="font-medium">Condition</span>
             <select
               {...form.register("condition")}
-              className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+              className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
             >
               {conditions.map((condition) => (
                 <option key={condition} value={condition}>
@@ -159,14 +167,16 @@ export function ListingForm({ platformFeeBps }: { platformFeeBps: number }) {
             <span className="font-medium">Language</span>
             <input
               {...form.register("language", { required: true })}
-              className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+              className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
               placeholder="English"
             />
           </label>
-        </div>
+        </fieldset>
+      </div>
 
-        <CardImageUpload value={imageUrl} onChange={setImageUrl} />
+      <CardImageUpload value={imageUrl} onChange={setImageUrl} />
 
+      <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-1 text-sm">
           <span className="font-medium">Listing price (USD)</span>
           <input
@@ -174,28 +184,29 @@ export function ListingForm({ platformFeeBps }: { platformFeeBps: number }) {
             step="0.5"
             min="1"
             {...form.register("price", { valueAsNumber: true })}
-            className="w-full rounded border border-[var(--color-border)] bg-transparent px-3 py-2"
+            className="w-full rounded-2xl border border-[var(--color-border)]/70 bg-transparent px-4 py-3 text-base outline-none focus:border-[var(--color-accent-strong)]"
           />
         </label>
-        <div className="rounded-lg border border-dashed border-[var(--color-border)] bg-[color:var(--background)]/60 p-4 text-sm">
+        <div className="rounded-2xl border border-dashed border-[var(--color-border)]/70 bg-[color:var(--background)]/60 p-4 text-sm text-[var(--muted)]">
           <p>
-            Platform keeps <strong>{platformFeeBps / 100}%</strong> ({platformFee.toFixed(2)} USD). You receive the rest automatically via Stripe Connect.
+            Platform keeps <strong>{platformFeeBps / 100}%</strong> (<span className="font-mono">${platformFee.toFixed(2)}</span>).
           </p>
+          <p>Your net payout arrives via Stripe Connect automatically.</p>
         </div>
+      </div>
 
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" {...form.register("ownsRights", { required: true })} />
-          I own the rights to upload this image and it contains no third-party IP.
-        </label>
+      <label className="flex items-start gap-3 rounded-2xl border border-[var(--color-border)]/70 px-4 py-3 text-sm">
+        <input type="checkbox" {...form.register("ownsRights", { required: true })} className="mt-1" />
+        <span>I own the rights to upload this image and it contains no third-party IP.</span>
+      </label>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-full bg-[var(--color-accent-strong)] px-4 py-3 text-base font-semibold text-white"
-        >
-          {loading ? "Publishing..." : "Publish listing"}
-        </button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full rounded-full bg-[var(--color-accent-strong)] px-6 py-4 text-base font-semibold text-white transition hover:brightness-110"
+      >
+        {loading ? "Publishing..." : "Publish listing"}
+      </button>
+    </form>
   );
 }
